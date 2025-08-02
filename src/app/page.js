@@ -182,51 +182,55 @@ export default function Home() {
         </h2>
 
         {loading ? (
-          <p>Loading...</p>
-        ) : professionals.length === 0 ? (
-          <p className="text-gray-600">Not Available</p>
-        ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {professionals.map((pro) => (
-            <div
-              key={pro.id}
-              className="bg-white rounded-lg shadow-md p-4 text-gray-800 flex items-center gap-3"
-            >
-              <div className="bg-gray-100 rounded-full h-20 w-20"></div>
-              <div>
-                <h3 className="text-xl font-bold">{pro.name}</h3>
-              {/* Category placeholder box */}
-              <div className="bg-gray-200 text-gray-700 text-sm px-3 py-2 rounded-md inline-block w-fit">
-                {pro.category || "Category not specified"}
-              </div>
-                <p className="text-md font-medium text-gray-600">{pro.location}</p>
-
-              {/* Call and WhatsApp buttons */}
-              <div className="flex gap-3 mt-2">
-                <Link
-                  href={`tel:+91${pro.mobile}`}
-                  className="no-underline flex items-center bg-white border border-blue-600 text-blue-600 text-sm font-semibold px-3 py-1 rounded shadow-sm hover:bg-blue-50"
-                >
-                  <FaPhoneAlt className="mr-2" />
-                  Call Now
-                </Link>
-
-                <Link
-                  href={`https://wa.me/91${pro.mobile}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="no-underline flex items-center bg-white border border-green-600 text-green-600 text-sm font-semibold px-3 py-1 rounded shadow-sm hover:bg-green-50"
-                >
-                  <FaWhatsapp className="mr-2 text-lg" />
-                  WhatsApp Me
-                </Link>
-
-              </div>
-              </div>
+  <p>Loading...</p>
+) : professionals.length === 0 ? (
+  <p className="text-gray-600">Not Available</p>
+) : (
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    {professionals
+      .filter((pro) => pro.status === "active") // ✅ Only show active
+      .map((pro) => (
+        <div
+          key={pro.id}
+          className="bg-white rounded-lg shadow-md p-4 text-gray-800 flex items-center gap-3"
+        >
+          <div className="bg-gray-100 rounded-full h-20 w-20"></div>
+          <div>
+            <h3 className="text-xl font-bold">{pro.name}</h3>
+            
+            {/* Category placeholder box */}
+            <div className="bg-gray-200 text-gray-700 text-sm px-3 py-2 rounded-md inline-block w-fit">
+              {pro.category || "Category not specified"}
             </div>
-          ))}
+
+            <p className="text-md font-medium text-gray-600">{pro.location}</p>
+
+            {/* Call and WhatsApp buttons */}
+            <div className="flex gap-3 mt-2">
+              <a
+                href={`tel:+91${pro.mobile}`}
+                className="no-underline flex items-center bg-white border border-blue-600 text-blue-600 text-sm font-semibold px-3 py-1 rounded shadow-sm hover:bg-blue-50"
+              >
+                <FaPhoneAlt className="mr-2" />
+                Call Now
+              </a>
+
+              <a
+                href={`https://wa.me/91${pro.mobile}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="no-underline flex items-center bg-white border border-green-600 text-green-600 text-sm font-semibold px-3 py-1 rounded shadow-sm hover:bg-green-50"
+              >
+                <FaWhatsapp className="mr-2 text-lg" />
+                WhatsApp Me
+              </a>
+            </div>
+          </div>
         </div>
-        )}
+      ))}
+  </div>
+)}
+
       </div>
 </div>
       {/* Footer */}

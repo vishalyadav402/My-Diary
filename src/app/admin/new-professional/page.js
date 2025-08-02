@@ -34,6 +34,7 @@ export default function SkilledProfessionalsForm() {
     await addDoc(collection(db, "professionals"), {
       ...form,
       createdAt: new Date(),
+      status: "active"
     });
     toast.success("Professional added!");
     setForm({ name: "", mobile: "", location: "", category: "" });
