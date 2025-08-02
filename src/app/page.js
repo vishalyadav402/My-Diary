@@ -7,7 +7,7 @@ import { db } from "@/app/firebase/config";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaWhatsapp } from "react-icons/fa";
 import { MdLocationOn } from 'react-icons/md'; // For Material Design
-import QRSection from "./component/QRsection";
+import QRSection from "./component/QRSection";
 
 export default function Home() {
   const [categories, setCategories] = useState([]);
