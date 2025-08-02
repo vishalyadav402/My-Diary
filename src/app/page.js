@@ -7,6 +7,8 @@ import { db } from "@/app/firebase/config";
 import Image from "next/image";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaWhatsapp } from "react-icons/fa";
+import { MdLocationOn } from 'react-icons/md'; // For Material Design
+import QRSection from "./component/QRsection";
 
 export default function Home() {
   const [categories, setCategories] = useState([]);
@@ -92,14 +94,14 @@ export default function Home() {
     <>
     <div className="min-h-[90vh]">
       {/* Hero Section */}
-      <div className="bg-cover bg-center min-h-[65vh] bg-[url('/images/painter.jpg')]">
+      <div className="bg-cover bg-center min-h-[65vh] bg-[url('/images/painter.jpg')] pb-0">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between gap-10 py-4">
             {/* Location Dropdown */}
             <div className="flex flex-col mt-6">
               <label
                 htmlFor="location"
-                className="text-white font-medium text-sm"
+                className="text-emerald-500 text-shadow-emerald-50 font-semibold text-sm"
               >
                 Please Select Location:
               </label>
@@ -110,7 +112,7 @@ export default function Home() {
                   setSelectedLocation(e.target.value);
                   setSelectedCategory(""); // reset category
                 }}
-                className="px-4 py-2 rounded bg-white text-gray-800 shadow"
+                className="px-4 py-2 rounded bg-emerald-950 text-emerald-200 shadow border-0 outline-0"
               >
                 {locations.map((loc) => (
                   <option key={loc.id} value={loc.name}>
@@ -120,7 +122,7 @@ export default function Home() {
               </select>
             </div>
 
-            <h1 className="text-4xl hidden md:block font-bold text-gray-100">
+            <h1 className="text-4xl hidden md:block font-bold text-emerald-950 text-shadow-emerald-50">
               Find Professionals Near You
             </h1>
 
@@ -143,10 +145,10 @@ export default function Home() {
           </div>
 
           {/* CTA */}
-          <div className="flex justify-start items-center my-10 md:mb-20">
+          <div className="flex justify-start items-center my-5 md:my-10">
             <Link
               href="/admin/new-professional"
-              className="text-gray-100 text-2xl md:text-4xl underline"
+              className="text-blue-50 text-2xl md:text-4xl underline-offset-1"
             >
               Are you a Skilled Professional? Register Now!
             </Link>
@@ -154,7 +156,7 @@ export default function Home() {
 
           {/* Category Icons */}
           <div className="p-0">
-            <div className="max-w-7xl mx-auto my-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+            <div className="max-w-7xl mx-auto my-8 grid grid-cols-4 sm:grid-cols-3 md:grid-cols-6 gap-4">
               {categories.map((item, idx) => (
                 <button
                   key={idx}
@@ -163,11 +165,14 @@ export default function Home() {
                       selectedCategory === item.name ? "" : item.name
                     )
                   }
-                  className={`flex flex-col items-center bg-white p-4 rounded-lg shadow transition hover:bg-blue-100 ${
-                    selectedCategory === item.name ? "bg-blue-200" : ""
+                  className={`flex flex-col items-center justify-center bg-emerald-950 text-emerald-100 p-1 h-10 md:h-15 rounded-lg shadow transition hover:bg-emerald-900 ${
+                    selectedCategory === item.name ? "bg-blue-300" : ""
                   }`}
                 >
-                  <p className="text-center font-bold md:text-2xl">{item.name}</p>
+                  <p className="text-center font-bold text-[0.8rem] md:text-md text-ellipsis leading-4">
+                    {item.name?.split(" ").slice(0, 2).join(" ") + (item.name?.split(" ").length > 2 ? "..." : "")}
+                  </p>
+
                 </button>
               ))}
             </div>
@@ -192,38 +197,36 @@ export default function Home() {
       .map((pro) => (
         <div
           key={pro.id}
-          className="bg-white rounded-lg shadow-md p-4 text-gray-800 flex items-center gap-3"
+          className="bg-white rounded-lg shadow-md p-4 text-gray-800 flex gap-3"
         >
-          <div className="bg-gray-100 rounded-full h-20 w-20"></div>
+          <div className="bg-gray-100 text-gray-600 font-semibold rounded h-30 w-30 p-3 flex flex-col justify-center items-center">
+            {pro.category || "Category not specified"}
+          </div>
           <div>
-            <h3 className="text-xl font-bold">{pro.name}</h3>
+            <h3 className="text-xl text-gray-600 font-bold">{pro.name}</h3>
             
-            {/* Category placeholder box */}
-            <div className="bg-gray-200 text-gray-700 text-sm px-3 py-2 rounded-md inline-block w-fit">
-              {pro.category || "Category not specified"}
+            <div className="flex">
+            <p className="text-md font-medium text-gray-600 flex items-center gap-1 my-1"><MdLocationOn size={20} />{pro.location}</p>
             </div>
-
-            <p className="text-md font-medium text-gray-600">{pro.location}</p>
-
             {/* Call and WhatsApp buttons */}
             <div className="flex gap-3 mt-2">
-              <a
+              <Link
                 href={`tel:+91${pro.mobile}`}
-                className="no-underline flex items-center bg-white border border-blue-600 text-blue-600 text-sm font-semibold px-3 py-1 rounded shadow-sm hover:bg-blue-50"
+                className="no-underline p-2 md:p-2 flex items-center gap-1 bg-blue-600 text-white text-sm font-semibold rounded shadow-sm hover:bg-blue-700"
               >
-                <FaPhoneAlt className="mr-2" />
-                Call Now
-              </a>
+                <FaPhoneAlt className="text-lg"/>
+                Call
+              </Link>
 
-              <a
+              <Link
                 href={`https://wa.me/91${pro.mobile}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="no-underline flex items-center bg-white border border-green-600 text-green-600 text-sm font-semibold px-3 py-1 rounded shadow-sm hover:bg-green-50"
+                className="no-underline p-2 md:p-2 flex items-center gap-1 bg-white border border-green-600 text-green-600 text-sm font-semibold rounded shadow-sm hover:bg-green-50"
               >
-                <FaWhatsapp className="mr-2 text-lg" />
-                WhatsApp Me
-              </a>
+                <FaWhatsapp className="text-2xl" />
+                WhatsApp
+              </Link>
             </div>
           </div>
         </div>
@@ -234,9 +237,7 @@ export default function Home() {
       </div>
 </div>
       {/* Footer */}
-      <div className="flex justify-center items-center my-20">
-        <Image src={'/mydiaryapp-qr.png'} height={500} width={500} alt="QR Code to open My Diary app!"/>
-      </div>
+      <QRSection/>
       <footer className="text-center py-4 bg-white text-gray-400 text-sm">
         &copy; 2025 PBH Services. All Rights Reserved.
       </footer>
