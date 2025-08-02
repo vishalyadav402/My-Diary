@@ -4,6 +4,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/app/firebase/config";
+import Image from "next/image";
+import { FaPhoneAlt } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function Home() {
   const [categories, setCategories] = useState([]);
@@ -87,17 +90,18 @@ export default function Home() {
 
   return (
     <>
+    <div className="min-h-[90vh]">
       {/* Hero Section */}
-      <div className="bg-cover bg-center min-h-[60vh] bg-[url('/images/painter.jpg')]">
+      <div className="bg-cover bg-center min-h-[65vh] bg-[url('/images/painter.jpg')]">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between gap-10 py-4">
             {/* Location Dropdown */}
-            <div className="flex items-center gap-4 mt-6">
+            <div className="flex flex-col mt-6">
               <label
                 htmlFor="location"
                 className="text-white font-medium text-sm"
               >
-                Select Location:
+                Please Select Location:
               </label>
               <select
                 id="location"
@@ -116,12 +120,12 @@ export default function Home() {
               </select>
             </div>
 
-            <h1 className="text-2xl font-bold text-white">
+            <h1 className="text-4xl hidden md:block font-bold text-gray-100">
               Find Professionals Near You
             </h1>
 
             {/* Language Dropdown */}
-            <div className="flex flex-col items-start">
+            {/* <div className="flex flex-col items-start">
               <label
                 htmlFor="language"
                 className="text-white font-medium text-sm"
@@ -135,14 +139,14 @@ export default function Home() {
                 <option value="hi">Hindi</option>
                 <option value="en">English</option>
               </select>
-            </div>
+            </div> */}
           </div>
 
           {/* CTA */}
-          <div className="flex justify-center items-center my-10">
+          <div className="flex justify-start items-center my-10 md:mb-20">
             <Link
               href="/admin/new-professional"
-              className="text-gray-500 text-4xl underline"
+              className="text-gray-100 text-2xl md:text-4xl underline"
             >
               Are you a Skilled Professional? Register Now!
             </Link>
@@ -163,7 +167,7 @@ export default function Home() {
                     selectedCategory === item.name ? "bg-blue-200" : ""
                   }`}
                 >
-                  <p className="text-center font-medium">{item.name}</p>
+                  <p className="text-center font-bold md:text-2xl">{item.name}</p>
                 </button>
               ))}
             </div>
@@ -173,9 +177,8 @@ export default function Home() {
 
       {/* Professionals List */}
       <div className="max-w-7xl mx-auto px-4 mt-10">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800">
-          Skilled Professionals in {selectedLocation}
-          {selectedCategory && ` - ${selectedCategory}`}
+        <h2 className="text-xl md:text-2xl font-semibold mb-4 text-gray-800">
+          Looking For {selectedCategory ? `${selectedCategory}`:"Skilled Professionals"} in {selectedLocation} ?
         </h2>
 
         {loading ? (
@@ -183,23 +186,53 @@ export default function Home() {
         ) : professionals.length === 0 ? (
           <p className="text-gray-600">Not Available</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {professionals.map((pro) => (
-              <div
-                key={pro.id}
-                className="bg-white rounded-lg shadow-md p-4 text-gray-800"
-              >
-                <h3 className="text-lg font-bold">{pro.name}</h3>
-                <p className="text-sm">Location: {pro.location}</p>
-                <p className="text-sm">Service: {pro.category}</p>
-                <p className="text-sm">Mobile: {pro.mobile}</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {professionals.map((pro) => (
+            <div
+              key={pro.id}
+              className="bg-white rounded-lg shadow-md p-4 text-gray-800 flex items-center gap-3"
+            >
+              <div className="bg-gray-100 rounded-full h-20 w-20"></div>
+              <div>
+                <h3 className="text-xl font-bold">{pro.name}</h3>
+              {/* Category placeholder box */}
+              <div className="bg-gray-200 text-gray-700 text-sm px-3 py-2 rounded-md inline-block w-fit">
+                {pro.category || "Category not specified"}
               </div>
-            ))}
-          </div>
+                <p className="text-md font-medium text-gray-600">{pro.location}</p>
+
+              {/* Call and WhatsApp buttons */}
+              <div className="flex gap-3 mt-2">
+                <a
+                  href={`tel:+91${pro.mobile}`}
+                  className="no-underline flex items-center bg-white border border-blue-600 text-blue-600 text-sm font-semibold px-3 py-1 rounded shadow-sm hover:bg-blue-50"
+                >
+                  <FaPhoneAlt className="mr-2" />
+                  Call Now
+                </a>
+
+                                <a
+                  href={`https://wa.me/91${pro.mobile}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="no-underline flex items-center bg-white border border-green-600 text-green-600 text-sm font-semibold px-3 py-1 rounded shadow-sm hover:bg-green-50"
+                >
+                  <FaWhatsapp className="mr-2 text-lg" />
+                  WhatsApp Me
+                </a>
+
+              </div>
+              </div>
+            </div>
+          ))}
+        </div>
         )}
       </div>
-
+</div>
       {/* Footer */}
+      <div className="flex justify-center items-center my-20">
+        <Image src={'/mydiaryapp-qr.png'} height={500} width={500} alt="QR Code to open My Diary app!"/>
+      </div>
       <footer className="text-center py-4 bg-white text-gray-400 text-sm">
         &copy; 2025 PBH Services. All Rights Reserved.
       </footer>
