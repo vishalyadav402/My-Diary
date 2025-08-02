@@ -1,103 +1,208 @@
-import Image from "next/image";
+"use client";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "@/app/firebase/config";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [categories, setCategories] = useState([]);
+  const [locations, setLocations] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [professionals, setProfessionals] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  // Fetch categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "categories"));
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setCategories(data);
+      } catch (err) {
+        console.error("Error fetching categories:", err);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  // Fetch locations
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "locations"));
+        const locationList = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setLocations(locationList);
+        if (locationList.length > 0) {
+          setSelectedLocation(locationList[0].name);
+        }
+      } catch (error) {
+        console.error("Error fetching locations:", error);
+      }
+    };
+    fetchLocations();
+  }, []);
+
+  // Fetch professionals based on selected location & category
+  useEffect(() => {
+    const fetchProfessionals = async () => {
+      if (!selectedLocation) return;
+      setLoading(true);
+      try {
+        let q = query(
+          collection(db, "professionals"),
+          where("location", "==", selectedLocation)
+        );
+
+        if (selectedCategory) {
+          q = query(
+            collection(db, "professionals"),
+            where("location", "==", selectedLocation),
+            where("category", "==", selectedCategory)
+          );
+        }
+
+        const snapshot = await getDocs(q);
+        const profList = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setProfessionals(profList);
+      } catch (err) {
+        console.error("Error fetching professionals:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfessionals();
+  }, [selectedLocation, selectedCategory]);
+
+  return (
+    <>
+      {/* Hero Section */}
+      <div className="bg-cover bg-center min-h-[60vh] bg-[url('/images/painter.jpg')]">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-between gap-10 py-4">
+            {/* Location Dropdown */}
+            <div className="flex items-center gap-4 mt-6">
+              <label
+                htmlFor="location"
+                className="text-white font-medium text-sm"
+              >
+                Select Location:
+              </label>
+              <select
+                id="location"
+                value={selectedLocation}
+                onChange={(e) => {
+                  setSelectedLocation(e.target.value);
+                  setSelectedCategory(""); // reset category
+                }}
+                className="px-4 py-2 rounded bg-white text-gray-800 shadow"
+              >
+                {locations.map((loc) => (
+                  <option key={loc.id} value={loc.name}>
+                    {loc.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <h1 className="text-2xl font-bold text-white">
+              Find Professionals Near You
+            </h1>
+
+            {/* Language Dropdown */}
+            <div className="flex flex-col items-start">
+              <label
+                htmlFor="language"
+                className="text-white font-medium text-sm"
+              >
+                Language
+              </label>
+              <select
+                id="language"
+                className="py-2 px-2 rounded bg-white text-gray-800 shadow"
+              >
+                <option value="hi">Hindi</option>
+                <option value="en">English</option>
+              </select>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="flex justify-center items-center my-10">
+            <Link
+              href="/admin/new-professional"
+              className="text-gray-500 text-4xl underline"
+            >
+              Are you a Skilled Professional? Register Now!
+            </Link>
+          </div>
+
+          {/* Category Icons */}
+          <div className="p-0">
+            <div className="max-w-7xl mx-auto my-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+              {categories.map((item, idx) => (
+                <button
+                  key={idx}
+                  onClick={() =>
+                    setSelectedCategory(
+                      selectedCategory === item.name ? "" : item.name
+                    )
+                  }
+                  className={`flex flex-col items-center bg-white p-4 rounded-lg shadow transition hover:bg-blue-100 ${
+                    selectedCategory === item.name ? "bg-blue-200" : ""
+                  }`}
+                >
+                  <p className="text-center font-medium">{item.name}</p>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </div>
+
+      {/* Professionals List */}
+      <div className="max-w-7xl mx-auto px-4 mt-10">
+        <h2 className="text-xl font-semibold mb-4 text-gray-800">
+          Skilled Professionals in {selectedLocation}
+          {selectedCategory && ` - ${selectedCategory}`}
+        </h2>
+
+        {loading ? (
+          <p>Loading...</p>
+        ) : professionals.length === 0 ? (
+          <p className="text-gray-600">Not Available</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {professionals.map((pro) => (
+              <div
+                key={pro.id}
+                className="bg-white rounded-lg shadow-md p-4 text-gray-800"
+              >
+                <h3 className="text-lg font-bold">{pro.name}</h3>
+                <p className="text-sm">Location: {pro.location}</p>
+                <p className="text-sm">Service: {pro.category}</p>
+                <p className="text-sm">Mobile: {pro.mobile}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Footer */}
+      <footer className="text-center py-4 bg-white text-gray-400 text-sm">
+        &copy; 2025 PBH Services. All Rights Reserved.
       </footer>
-    </div>
+    </>
   );
 }
