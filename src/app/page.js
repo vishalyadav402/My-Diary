@@ -203,15 +203,15 @@ export default function Home() {
 
               {/* Call and WhatsApp buttons */}
               <div className="flex gap-3 mt-2">
-                <a
+                <Link
                   href={`tel:+91${pro.mobile}`}
                   className="no-underline flex items-center bg-white border border-blue-600 text-blue-600 text-sm font-semibold px-3 py-1 rounded shadow-sm hover:bg-blue-50"
                 >
                   <FaPhoneAlt className="mr-2" />
                   Call Now
-                </a>
+                </Link>
 
-                                <a
+                <Link
                   href={`https://wa.me/91${pro.mobile}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -219,7 +219,7 @@ export default function Home() {
                 >
                   <FaWhatsapp className="mr-2 text-lg" />
                   WhatsApp Me
-                </a>
+                </Link>
 
               </div>
               </div>

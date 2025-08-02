@@ -4,6 +4,7 @@ import { db } from "@/app/firebase/config";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { FaArrowLeft, FaUser, FaPhone, FaMapMarkerAlt, FaTools } from "react-icons/fa";
+import Link from "next/link";
 
 export default function SkilledProfessionalsForm() {
   const [form, setForm] = useState({ name: "", mobile: "", location: "", category: "" });
@@ -41,12 +42,12 @@ export default function SkilledProfessionalsForm() {
   return (
 
 <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-4">
-  <a
+  <Link
     href="/"
     className="mb-4 flex items-center gap-2 text-purple-700 hover:text-purple-900 font-medium transition"
   >
     <FaArrowLeft /> Back To Home
-  </a>
+  </Link>
       <div className="bg-white shadow-lg rounded-xl p-6 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
           Add Skilled Professional
