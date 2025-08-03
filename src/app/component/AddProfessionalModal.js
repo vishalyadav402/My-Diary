@@ -65,7 +65,7 @@ export default function AddProfessionalModal({ open, onClose, onAdded }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(0,0,0,0.5)]">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+      <div className="bg-white rounded-lg shadow-lg p-6 m-2 w-full max-w-md relative">
         <button
           className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
           onClick={onClose}
@@ -164,7 +164,7 @@ export default function AddProfessionalModal({ open, onClose, onAdded }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded transition duration-300"
+            className="w-full bg-emerald-600 hover:bg-emerald-700 text-emerald-50 font-semibold py-2 rounded transition duration-300"
           >
             {loading ? "Saving..." : "Save Professional"}
           </button>

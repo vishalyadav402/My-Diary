@@ -34,11 +34,11 @@ export const metadata = {
     title: "My Diary: Your Local Diary For Essential Services!",
     description:
       "Browse local professionals like electricians, tutors, beauticians, and more. Book services instantly from your neighborhood!",
-    url: "https://yourdomain.com", // replace with your actual domain
+    url: "https://my-diary-xi-one.vercel.app/", // replace with your actual domain
     siteName: "My Diary",
     images: [
       {
-        url: "/og-image.jpg", // Replace with a valid image path
+        url: "/settings.png", // Replace with a valid image path
         width: 1200,
         height: 630,
         alt: "My Diary - Local Services",
@@ -52,7 +52,7 @@ export const metadata = {
     title: "My Diary: Your Local Diary For Essential Services!",
     description:
       "Verified local professionals at your fingertips. Quick booking, trusted services, and community powered listings.",
-    images: ["/og-image.jpg"], // Replace with your social preview image
+    images: ["/settings.png"], // Replace with your social preview image
   },
   robots: {
     index: true,

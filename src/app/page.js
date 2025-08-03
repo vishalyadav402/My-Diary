@@ -166,12 +166,12 @@ export default function Home() {
             <div className="flex justify-start items-center my-5 gap-2 md:my-10">
               <Link
                 href="/admin/new-professional"
-                className="text-blue-50 text-2xl md:text-4xl underline-offset-1"
+                className="text-blue-50 leading-6.5 text-2xl md:text-4xl underline-offset-1"
               >
                 Are you a Skilled Professional? 
               </Link>
               <button
-                className="bg-emerald-700 animate-bounce cursor-pointer text-white px-4 py-2 rounded-full shadow-lg z-50"
+                className="bg-emerald-700 font-semibold animate-bounce cursor-pointer text-white px-4 py-2 w-48 rounded-full shadow-lg z-50"
                 onClick={() => setShowModal(true)}
               >
                 Register Now
@@ -199,7 +199,7 @@ export default function Home() {
                       selectedCategory === item.name ? "bg-blue-300" : ""
                     }`}
                   >
-                    <p className="text-center font-bold text-[0.9rem] md:text-md text-ellipsis leading-4">
+                    <p className="text-center font-medium text-[0.7rem] md:text-md text-ellipsis leading-3">
                       {item.name?.split(" ").slice(0, 3).join(" ") + (item.name?.split(" ").length > 3 ? ".." : "")}
                     </p>
                   </button>
@@ -223,7 +223,7 @@ export default function Home() {
 
         {/* Professionals List */}
         <div className="max-w-7xl mx-auto px-4 mt-4">
-          <h2 className="text-xl md:text-2xl font-semibold mb-4 text-gray-800">
+          <h2 className="text-xl leading-5.5 md:text-2xl font-semibold mb-4 text-emerald-600">
             Looking For {selectedCategory ? `${selectedCategory}` : "Skilled Professionals"} in {selectedLocation} ?
           </h2>
 
@@ -232,23 +232,25 @@ export default function Home() {
           ) : filteredProfessionals.length === 0 ? (
             <p className="text-gray-600">Not Available</p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-2 md:gap-4">
               {filteredProfessionals.map((pro) => (
                 <div
                   key={pro.id}
-                  className="bg-white rounded-lg shadow-md p-4 text-gray-800 flex gap-3"
+                  className="bg-white rounded-lg shadow-md p-2 md:p-4 text-gray-800 flex gap-3"
                 >
-                  <div className="text-center flex flex-col">
-                    <div className="bg-gray-100 text-gray-600 font-semibold rounded h-25 w-30 p-3 flex flex-col justify-center items-center">
-                      {pro.category || "Category not specified"}
+                  <div className="flex flex-col relative">
+                    <div className="bg-[url('/settings.png')] bg-contain bg-center mb-10 leading-4 text-gray-600 font-semibold rounded h-25 w-30 p-3 flex flex-col justify-center items-center">
+                      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+                        <div className="relative z-10 text-white p-10">{pro.category || "Category not specified"}</div>
                     </div>
-                    <p className="text-xs font-semibold text-gray-600 flex items-center gap-1 my-1 leading-4">
+                    <p className="text-xs absolute bottom-0 leading-3.5 font-semibold text-blue-600 flex items-center justify-start gap-1 my-1">
                       <MdLocationOn size={20} />
                       {pro.location}
                     </p>
                   </div>
-                  <div>
-                    <h3 className="text-xl text-gray-600 font-bold">{pro.name}</h3>
+                  <div className="relative">
+                    <div className="mb-10">
+                    <h3 className="text-lg text-gray-600 font-semibold leading-5">{pro.name}</h3>
                     {/* Service Types */}
                     {pro.services && pro.services.length > 0 && (
                       <div className="flex flex-wrap gap-1 my-2">
@@ -262,9 +264,9 @@ export default function Home() {
                         ))}
                       </div>
                     )}
-
+                    </div>
                     {/* Call and WhatsApp buttons */}
-                    <div className="flex gap-3 mt-2">
+                    <div className="flex gap-3 mt-2 absolute bottom-0">
                       <Link
                         href={`tel:+91${pro.mobile}`}
                         className="no-underline px-2 md:px-2 flex items-center gap-1 bg-blue-600 text-white text-sm font-semibold rounded shadow-sm hover:bg-blue-700"
@@ -293,7 +295,7 @@ export default function Home() {
       {/* Footer */}
       <QRSection />
       <footer className="text-center py-4 bg-white text-gray-400 text-sm">
-        &copy; 2025 PBH Services. All Rights Reserved.
+        &copy; 2025 MyDiary App. All Rights Reserved.
       </footer>
     </>
   );
