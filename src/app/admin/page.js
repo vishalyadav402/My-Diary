@@ -9,6 +9,7 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
+import CMSLayout from "../component/CMSLayout";
 
 export default function AdminDashboard() {
   const [bookings, setBookings] = useState([]);
@@ -43,6 +44,7 @@ export default function AdminDashboard() {
   }, []);
 
   return (
+    <CMSLayout>
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Salon Bookings (Admin)</h1>
 
@@ -84,5 +86,6 @@ export default function AdminDashboard() {
         </div>
       )}
     </div>
+    </CMSLayout>
   );
 }

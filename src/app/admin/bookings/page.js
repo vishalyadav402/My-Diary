@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "../../firebase/config";
+import CMSLayout from "@/app/component/CMSLayout";
 
 export default function Page() {
   const [bookings, setBookings] = useState([]);
@@ -16,7 +17,8 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
+    <CMSLayout>
+    <div className="max-w-2xl p-4">
       <h1 className="text-xl font-bold mb-4">All Bookings</h1>
       {bookings.map(b => (
         <div key={b.id} className="border p-2 mb-2 rounded">
@@ -26,5 +28,6 @@ export default function Page() {
         </div>
       ))}
     </div>
+    </CMSLayout>
   );
 }
