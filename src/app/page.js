@@ -9,6 +9,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import { MdLocationOn } from 'react-icons/md';
 import QRSection from "./component/QRSection";
 import AddProfessionalModal from "./component/AddProfessionalModal";
+import NoInternet from "./component/NoInternet";
 
 export default function Home() {
   const [categories, setCategories] = useState([]);
@@ -22,7 +23,7 @@ export default function Home() {
 
   // For animated placeholder
   const placeholders = [
-    "Search plumber, electrician, beauty, etc.",
+    "Search plumber, electrician, beauty, cake order etc.",
     "Try 'haircut', 'AC repair', 'Prithviganj', ...",
     "Search by name, service, or location..."
   ];
@@ -127,6 +128,7 @@ export default function Home() {
 
   return (
     <>
+    <NoInternet />
       <div className="min-h-[90vh]">
         {/* Hero Section */}
         <div className="bg-cover bg-center min-h-[65vh] bg-[url('/images/painter.jpg')] pb-0">
@@ -199,7 +201,7 @@ export default function Home() {
                       selectedCategory === item.name ? "bg-blue-300" : ""
                     }`}
                   >
-                    <p className="text-center font-medium text-[0.7rem] md:text-md text-ellipsis leading-3">
+                    <p className="text-center font-medium text-[0.7rem] md:text-[0.9em] text-ellipsis leading-3">
                       {item.name?.split(" ").slice(0, 3).join(" ") + (item.name?.split(" ").length > 3 ? ".." : "")}
                     </p>
                   </button>
