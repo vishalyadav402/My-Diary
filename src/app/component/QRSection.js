@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 export default function QRSection() {
   const qrRef = useRef(null);
-  const appLink = "https://my-diary-xi-one.vercel.app/"; // replace with your actual app link
+  const appLink = "https://drive.google.com/uc?id=1reNFvi2IqVtbbJUlNLAZSiJo8xFZuE9n"; // replace with your actual app link
 
   const handleCopy = async () => {
     try {
@@ -18,8 +18,8 @@ export default function QRSection() {
 
   const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = "/mydiaryapp-qr.png"; // Make sure this path is correct
-    link.download = "mydiaryapp-qr.png";
+    link.href = "/MyDiaryAppQR.png"; // Make sure this path is correct
+    link.download = "MyDiaryAppQR.png";
     link.click();
   };
 
@@ -32,7 +32,7 @@ export default function QRSection() {
     <div className="flex flex-col items-center my-20">
       <Image
         ref={qrRef}
-        src={"/mydiaryapp-qr.png"}
+        src={"/MyDiaryAppQR.png"}
         height={500}
         width={500}
         alt="QR Code to open My Diary app!"

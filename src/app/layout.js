@@ -64,7 +64,7 @@ export const metadata = {
   ],
   applicationName: "My Diary",
   generator: "Next.js",
-  themeColor: "#6B21A8", // Optional: matches brand color
+  themeColor: "#002c22", // Optional: matches brand color
 };
 
 

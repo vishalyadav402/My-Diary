@@ -10,6 +10,8 @@ import { MdLocationOn } from 'react-icons/md';
 import QRSection from "./component/QRSection";
 import AddProfessionalModal from "./component/AddProfessionalModal";
 import NoInternet from "./component/NoInternet";
+import CategoryIcons from "./component/CategoryIcons";
+import SearchBar from "./component/SearchBar";
 
 export default function Home() {
   const [categories, setCategories] = useState([]);
@@ -186,44 +188,28 @@ export default function Home() {
               />
             </div>
 
-            {/* Category Icons */}
-            <div className="p-0">
-              <div className="max-w-7xl mx-auto my-8 grid grid-cols-4 sm:grid-cols-3 md:grid-cols-6 gap-4">
-                {categories.map((item, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() =>
-                      setSelectedCategory(
-                        selectedCategory === item.name ? "" : item.name
-                      )
-                    }
-                    className={`flex flex-col items-center justify-center bg-emerald-950 text-emerald-100 p-1 h-10 md:h-15 rounded-lg shadow transition hover:bg-emerald-900 ${
-                      selectedCategory === item.name ? "bg-blue-300" : ""
-                    }`}
-                  >
-                    <p className="text-center font-medium text-[0.7rem] md:text-[0.9em] text-ellipsis leading-3">
-                      {item.name?.split(" ").slice(0, 3).join(" ") + (item.name?.split(" ").length > 3 ? ".." : "")}
-                    </p>
-                  </button>
-                ))}
-              </div>
-            </div>
+               {/* Category Icons */}
+             <CategoryIcons
+          categories={categories}
+          loading={loading}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
           </div>
         </div>
 
-        {/* Search Bar */}
-        <div className="max-w-7xl mx-auto px-4 mt-6">
-          <input
-            type="text"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder={placeholders[placeholderIdx]}
-            className="w-full border rounded px-4 py-2 mb-6 shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
-            autoFocus
-          />
-        </div>
+       {/* Search Bar */}
+        <SearchBar
+          search={search}
+          setSearch={setSearch}
+          loading={loading}
+          filteredProfessionals={filteredProfessionals}
+          placeholders={placeholders}
+          placeholderIdx={placeholderIdx}
+        />
 
         {/* Professionals List */}
+        {!search.trim() && (
         <div className="max-w-7xl mx-auto px-4 mt-4">
           <h2 className="text-xl leading-5.5 md:text-2xl font-semibold mb-4 text-emerald-600">
             Looking For {selectedCategory ? `${selectedCategory}` : "Skilled Professionals"} in {selectedLocation} ?
@@ -293,7 +279,9 @@ export default function Home() {
             </div>
           )}
         </div>
+        )}
       </div>
+
       {/* Footer */}
       <QRSection />
       <footer className="text-center py-4 bg-white text-gray-400 text-sm">
