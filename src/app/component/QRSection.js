@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useRef } from "react";
 import { toast } from "react-toastify";
+import { FaWhatsapp, FaCopy, FaShareAlt, FaDownload } from "react-icons/fa";
 
 export default function QRSection() {
   const qrRef = useRef(null);
@@ -28,39 +29,44 @@ export default function QRSection() {
     window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank");
   };
 
+  
+
   return (
     <div className="flex flex-col items-center my-20">
       <Image
         ref={qrRef}
         src={"/scantodownload.png"}
-        height={500}
-        width={500}
+        height={300}
+        width={300}
         alt="QR Code to open Digital Diary app!"
       />
 
-      <div className="mt-6 flex flex-wrap gap-4 justify-center">
+      <div className="mt-4 flex gap-2 justify-center">
         {/* WhatsApp Share */}
         <button
           onClick={handleWhatsAppShare}
-          className="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded shadow"
+          className="flex items-center gap-1 bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded shadow text-sm"
         >
-          Share on WhatsApp
+          <FaWhatsapp size={16} />
+          WhatsApp
         </button>
 
         {/* Copy Link */}
         <button
           onClick={handleCopy}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded shadow"
+          className="flex items-center gap-1 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded shadow text-sm"
         >
-          Copy App Link
+          <FaCopy size={15} />
+          Copy
         </button>
 
         {/* Download QR */}
         <button
           onClick={handleDownload}
-          className="bg-gray-700 hover:bg-gray-800 text-white px-2 py-1 rounded shadow"
+          className="flex items-center gap-1 bg-gray-700 hover:bg-gray-800 text-white px-3 py-1 rounded shadow text-sm"
         >
-          Download QR Code
+          <FaDownload size={15} />
+          QR Download
         </button>
       </div>
     </div>

@@ -13,7 +13,7 @@ export default function SearchBar({
 }) {
   return (
     <div
-      className="max-w-7xl mx-auto px-4 mt-6 rounded-md sticky top-0 z-30 bg-white/90 backdrop-blur shadow-sm transition-all"
+      className="max-w-7xl mx-auto px-4 rounded-md sticky top-0 z-30 bg-blue-50/90 backdrop-blur transition-all"
       id="searchbar-sticky"
     >
       <div className="relative">
@@ -52,7 +52,7 @@ export default function SearchBar({
       </div>
       {/* Show results just below the search bar when searching */}
       {search.trim() && (
-        <div className="bg-white rounded-b shadow-lg border-t-0 border border-emerald-100 max-h-[60vh] overflow-y-auto absolute left-0 right-0 w-full z-40">
+        <div className="bg-white max-w-7xl px-4 rounded-b shadow-lg border-t-0 border border-emerald-100 max-h-[60vh] overflow-y-auto absolute left-0 right-0 w-full z-40">
           {loading ? (
             <p className="p-4 text-center text-gray-500">Loading...</p>
           ) : filteredProfessionals.length === 0 ? (
