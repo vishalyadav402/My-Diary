@@ -285,7 +285,7 @@ export default function Home() {
       {/* Footer */}
       <QRSection />
       <footer className="text-center py-4 bg-white text-gray-400 text-sm">
-        &copy; 2025 MyDiary App. All Rights Reserved.
+        &copy; 2025 Digital Diary App. All Rights Reserved.
       </footer>
     </>
   );

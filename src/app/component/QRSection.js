@@ -32,10 +32,10 @@ export default function QRSection() {
     <div className="flex flex-col items-center my-20">
       <Image
         ref={qrRef}
-        src={"/MyDiaryAppQR.png"}
+        src={"/scantodownload.png"}
         height={500}
         width={500}
-        alt="QR Code to open My Diary app!"
+        alt="QR Code to open Digital Diary app!"
       />
 
       <div className="mt-6 flex flex-wrap gap-4 justify-center">
